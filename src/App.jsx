@@ -1,16 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useRoutes } from 'react-router';
+import Product from './pages/products/list';
+import MainLayout from './layouts/main';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        {
+          path: "products", // url: /products
+          element: <Product/>,
+        }
+      ]
+    }
+  ])
+  
   return (
-    <>
-      <h1>đây là { 1+2 }</h1>
-    </>
-  )
+    <div style={{ width: "100vw", height: "100vh" }}>
+      {routes}
+    </div>
+  );
 }
 
 export default App
