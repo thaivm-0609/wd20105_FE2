@@ -3,6 +3,7 @@ import MainLayout from './layouts/main';
 import ListProduct from './pages/products/list';
 import Homepage from './pages/home';
 import CreateProduct from './pages/products/create';
+import ClientLayout from './layouts/client';
 
 function App() {
   const routes = useRoutes([
@@ -22,7 +23,13 @@ function App() {
     },
     { //trang client
       path: '', 
-      element: <Homepage/>
+      element: <ClientLayout/>,
+      children: [
+        {
+          path: '',
+          element: <Homepage/>
+        }
+      ]
     }
   ]);
 
