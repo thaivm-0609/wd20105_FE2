@@ -1,4 +1,4 @@
-import { Table, Image, Button } from 'antd';
+import { Table, Image, Button, Space, Popconfirm } from 'antd';
 
 function ListProduct() {
     //dữ liệu hiển thị trong bảng
@@ -52,10 +52,16 @@ function ListProduct() {
             title: 'Action',
             render: (product) => {
                 return (
-                    <>
-                        <Button>Edit</Button>
-                        <Button>Delete</Button>
-                    </>
+                    <Space>
+                        <Button type="primary">Edit</Button>
+                        <Popconfirm
+                            title="Bạn có chắc chắn không?"
+                            okText="Có"
+                            cancelText="Không"
+                        >
+                            <Button danger>Delete</Button>
+                        </Popconfirm>
+                    </Space>
                 )
             }
         }
@@ -64,7 +70,7 @@ function ListProduct() {
     return (
         <div>
             <h1>Đây là trang danh sách</h1>
-            <Table dataSource={data} columns={columns} />
+            <Table dataSource={data} columns={columns} rowKey="id"/>
         </div>
     )
 }

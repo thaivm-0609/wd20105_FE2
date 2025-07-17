@@ -1,8 +1,10 @@
 import { useRoutes } from 'react-router'; //sử dụng useRoutes để điều hướng
 import MainLayout from './layouts/main';
 import ListProduct from './pages/products/list';
-import Homepage from './pages/home';
+import Homepage from './pages/client/home';
 import CreateProduct from './pages/products/create';
+import ClientLayout from './layouts/client';
+import ProductDetail from './pages/client/detail';
 
 function App() {
   const routes = useRoutes([
@@ -22,7 +24,17 @@ function App() {
     },
     { //trang client
       path: '', 
-      element: <Homepage/>
+      element: <ClientLayout/>,
+      children: [
+        {
+          path: '',
+          element: <Homepage/>
+        },
+        {
+          path: 'products/:id',
+          element: <ProductDetail/>
+        }
+      ]
     }
   ]);
 
