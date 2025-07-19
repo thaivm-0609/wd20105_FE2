@@ -1,4 +1,5 @@
-import { Table, Image, Button } from 'antd';
+import { Table, Image, Button, Popconfirm } from 'antd';
+import { useState } from 'react';
 
 function ListProduct() {
     //dữ liệu hiển thị trong bảng
@@ -22,6 +23,15 @@ function ListProduct() {
            "price": 3000000
         }
     ];
+
+    //lưu trữ biến products vào trong state
+    const [products, setProducts] = useState(data);
+
+    //khai báo hàm xóa sản phẩm
+    const handleDelete = (id) => {
+        const newProducts = products.filter(product => product.id != id);
+        setProducts(newProducts);
+    };
 
     //khai báo cột xuất hiện trong bảng
     const columns = [
@@ -54,7 +64,15 @@ function ListProduct() {
                 return (
                     <>
                         <Button>Edit</Button>
-                        <Button>Delete</Button>
+                        <Popconfirm
+                            title="Delete the task"
+                            description="Bạn có chắc không?"
+                            onConfirm={() => handleDelete(product.id)}
+                            okText="Đồng ý"
+                            cancelText="Hủy"
+                        >
+                            <Button danger>Delete</Button>
+                        </Popconfirm>
                     </>
                 )
             }
@@ -64,7 +82,7 @@ function ListProduct() {
     return (
         <div>
             <h1>Đây là trang danh sách</h1>
-            <Table dataSource={data} columns={columns} />
+            <Table dataSource={products} columns={columns} key="id"/>
         </div>
     )
 }
