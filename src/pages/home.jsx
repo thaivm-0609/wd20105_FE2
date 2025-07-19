@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd';
 import ProductCard from '../components/ProductCard';
+import Counter from '../components/Counter';
 
 function Homepage() {
     const products = [
@@ -44,6 +45,7 @@ function Homepage() {
     return (
         <div>
             <h1 style={{ textAlign: "center"}}>Homepage</h1>
+                <Counter />
                 <Row>
                     {products.map((p) => (
                         <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }} key={p.id}>
