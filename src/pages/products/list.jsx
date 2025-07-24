@@ -1,38 +1,52 @@
 import { Table, Image, Button, Popconfirm } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function ListProduct() {
     //dữ liệu hiển thị trong bảng
-    const data = [
-        {
-           "id": 1,
-           "name": "Product 1",
-           "image": "https://picsum.photos/200/300",
-           "price": 1000000
-        },
-        {
-           "id": 2,
-           "name": "Product 2",
-           "image": "https://picsum.photos/200/300",
-           "price": 2000000
-        },
-        {
-           "id": 3,
-           "name": "Product 3",
-           "image": "https://picsum.photos/200/300",
-           "price": 3000000
-        }
-    ];
+    // const data = [
+    //     {
+    //        "id": 1,
+    //        "name": "Product 1",
+    //        "image": "https://picsum.photos/200/300",
+    //        "price": 1000000
+    //     },
+    //     {
+    //        "id": 2,
+    //        "name": "Product 2",
+    //        "image": "https://picsum.photos/200/300",
+    //        "price": 2000000
+    //     },
+    //     {
+    //        "id": 3,
+    //        "name": "Product 3",
+    //        "image": "https://picsum.photos/200/300",
+    //        "price": 3000000
+    //     }
+    // ];
 
     //lưu trữ biến products vào trong state
-    const [products, setProducts] = useState(data);
-
+    // const [products, setProducts] = useState(data);
+    const [products, setProducts] = useState([]);
+    //khai báo hàm lấy danh sách sản phẩm
+    const getList = async () => {
+        try {
+            //B1: call api để lấy dữ liệu: await axios.method('apiUrl', ?data);
+            const { data } = await axios.get("http://localhost:3000/products");
+            //B2: gán dữ liệu vào cho biến products
+            setProducts(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     //khai báo hàm xóa sản phẩm
     const handleDelete = (id) => {
         const newProducts = products.filter(product => product.id != id);
         setProducts(newProducts);
     };
-
+    useEffect(() => {
+        getList()//gọi hàm getList
+    }, [products]);
     //khai báo cột xuất hiện trong bảng
     const columns = [
         {

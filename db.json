@@ -3,19 +3,19 @@
         {
            "id": 1,
            "name": "Product 1",
-           "image": "",
+           "image": "https://picsum.photos/200",
            "price": 1000000
         },
         {
            "id": 2,
            "name": "Product 2",
-           "image": "",
+           "image": "https://picsum.photos/200",
            "price": 2000000
         },
         {
            "id": 3,
            "name": "Product 3",
-           "image": "",
+           "image": "https://picsum.photos/200",
            "price": 3000000
         }
     ],
