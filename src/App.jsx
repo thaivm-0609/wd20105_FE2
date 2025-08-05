@@ -4,6 +4,7 @@ import ListProduct from './pages/products/list';
 import Homepage from './pages/home';
 import CreateProduct from './pages/products/create';
 import ClientLayout from './layouts/client';
+import EditProduct from './pages/products/edit';
 
 function App() {
   const routes = useRoutes([
@@ -18,6 +19,10 @@ function App() {
         {
           path: 'products/create',
           element: <CreateProduct/>
+        }, 
+        {
+          path: 'products/:id',
+          element: <EditProduct/>
         }
       ]
     },

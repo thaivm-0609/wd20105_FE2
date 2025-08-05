@@ -1,5 +1,6 @@
 import { Table, Image, Button, Popconfirm } from 'antd';
 import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 function ListProduct() {
@@ -40,9 +41,12 @@ function ListProduct() {
         }
     }
     //khai báo hàm xóa sản phẩm
-    const handleDelete = (id) => {
-        const newProducts = products.filter(product => product.id != id);
-        setProducts(newProducts);
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3000/products/${id}`);
+        } catch (error) {
+            console.log(error);
+        }
     };
     useEffect(() => {
         getList()//gọi hàm getList
@@ -77,7 +81,9 @@ function ListProduct() {
             render: (product) => {
                 return (
                     <>
-                        <Button>Edit</Button>
+                        <Button>
+                            <Link to={`/admin/products/${product.id}`}>Edit</Link>
+                        </Button>
                         <Popconfirm
                             title="Delete the task"
                             description="Bạn có chắc không?"
