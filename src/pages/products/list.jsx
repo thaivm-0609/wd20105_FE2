@@ -1,7 +1,7 @@
 import { Table, Image, Button, Popconfirm } from 'antd';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getList } from '../../providers/product';
 
 function ListProduct() {
     //dữ liệu hiển thị trong bảng
@@ -28,33 +28,40 @@ function ListProduct() {
 
     //lưu trữ biến products vào trong state
     // const [products, setProducts] = useState(data);
-    const [products, setProducts] = useState([]);
+    // const [products, setProducts] = useState([]);
     //khai báo hàm lấy danh sách sản phẩm
-    const getList = async () => {
-        try {
-            //B1: call api để lấy dữ liệu: await axios.method('apiUrl', ?data);
-            const { data } = await axios.get("http://localhost:3000/products");
-            //B2: gán dữ liệu vào cho biến products
-            setProducts(data);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    // const getList = async () => {
+    //     try {
+    //         //B1: call api để lấy dữ liệu: await axios.method('apiUrl', ?data);
+    //         const { data } = await axios.get("http://localhost:3000/products");
+    //         //B2: gán dữ liệu vào cho biến products
+    //         setProducts(data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
     //khai báo hàm xóa sản phẩm
-    const handleDelete = async (id) => {
-        // const newProducts = products.filter(product => product.id != id);
-        // setProducts(newProducts);
-        //call api
-        try {
-            await axios.delete(`http://localhost:3000/products/${id}`);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const handleDelete = async (id) => {
+    //     // const newProducts = products.filter(product => product.id != id);
+    //     // setProducts(newProducts);
+    //     //call api
+    //     try {
+    //         await axios.delete(`http://localhost:3000/products/${id}`);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
     
-    useEffect(() => {
-        getList()//gọi hàm getList
-    }, [products]);
+    // useEffect(() => {
+    //     getList()//gọi hàm getList
+    // }, [products]);
+
+    //su dung React query
+    const { data } = useQuery({
+        queryKey: ["products"], //
+        queryFn: () => getList({resource: "products"}),
+    })
+
     //khai báo cột xuất hiện trong bảng
     const columns = [
         {
@@ -106,7 +113,7 @@ function ListProduct() {
     return (
         <div>
             <h1>Đây là trang danh sách</h1>
-            <Table dataSource={products} columns={columns} key="id"/>
+            <Table dataSource={data} columns={columns} key="id"/>
         </div>
     )
 }

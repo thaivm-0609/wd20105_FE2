@@ -1,40 +1,63 @@
 import { Button, Form, Input, InputNumber } from 'antd';
 import { useNavigate, useParams } from "react-router-dom";
-import axios from 'axios';
 import { useEffect } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getDetail, updateProduct } from '../../providers/product';
 
 function EditProduct() {
     const { id } = useParams(); //lấy ID từ url
     const [form] = Form.useForm(); //sử dụng useForm để gán dữ liệu cho Form trong antd
+    const nav = useNavigate();
+    // const getDetail = async (id) => { //call api để lấy thông tin chi tiết
+    //     try {
+    //         const { data } = await axios.get(`http://localhost:3000/products/${id}`);
+    //         form.setFieldsValue(data); //biến data được gán vào trong form
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    const getDetail = async (id) => { //call api để lấy thông tin chi tiết
-        try {
-            const { data } = await axios.get(`http://localhost:3000/products/${id}`);
-            form.setFieldsValue(data); //biến data được gán vào trong form
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+    // useEffect(() => {
+    //     if (!id) return; //kiểm tra có tồn tại id hay không, không có thì dừng
+    //     getDetail(id); //có thì gọi hàm getDetail();
+    // }, [id]);
+    
+    //sử dụng useQuery để lấy chi tiết sản phẩm
+    const { data: product } = useQuery({
+        queryKey: ["product"],
+        queryFn: () => getDetail({resource: "products", id}),
+    })
+    
     useEffect(() => {
-        if (!id) return; //kiểm tra có tồn tại id hay không, không có thì dừng
-        getDetail(id); //có thì gọi hàm getDetail();
-    }, [id]);
+        if (!product) return;
+        form.setFieldsValue(product)
+    }, [product]);
+
+    //sử dụng useMutation để cập nhật dữ liệu
+    const { mutate } = useMutation({
+        mutationFn: (values) => updateProduct({ resource: "products", id, values}),
+        onSuccess: () => { //xu ly khi thanh cong
+            alert("Cập nhật thành công");
+            nav('/admin/products');
+        },
+        onError: () => { //xu ly loi
+            console.log("Lỗi rồi")
+        },
+    })
 
     function onFinish(values) {
         //values là dữ liệu ng dùng nhập vào form
-        updateProduct(values); //gọi hàm createProduct để thêm dữ liệu vào database
+        mutate(values); //gọi hàm mutate
     };
 
-    const nav = useNavigate();
-    const updateProduct = async (data) => {
-        try {
-            await axios.put(`http://localhost:3000/products/${id}`, data);
-            nav('/admin/products');
-        } catch {
-            console.log("Something went wrong");
-        }
-    }
+    // const updateProduct = async (data) => {
+    //     try {
+    //         await axios.put(`http://localhost:3000/products/${id}`, data);
+    //         nav('/admin/products');
+    //     } catch {
+    //         console.log("Something went wrong");
+    //     }
+    // }
 
     return (
         <div>

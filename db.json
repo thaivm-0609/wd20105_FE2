@@ -1,10 +1,10 @@
 {
   "products": [
     {
-      "id": 3,
-      "name": "Product 3",
-      "image": "https://picsum.photos/200",
-      "price": 3000000
+      "name": "Product 3 adljlaksdjflkjlsadf",
+      "image": "https://picsum.photos/300",
+      "price": 2999999,
+      "id": 3
     },
     {
       "name": "test dlaksdjflaskdfjl",
@@ -23,6 +23,12 @@
       "image": "https://picsum.photos/100",
       "price": 2222,
       "id": 7
+    },
+    {
+      "name": "test thêm mới mutation",
+      "image": "https://picsum.photos/200/300",
+      "price": 4444,
+      "id": 8
     }
   ],
   "users": []
