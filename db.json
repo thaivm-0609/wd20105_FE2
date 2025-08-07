@@ -23,6 +23,12 @@
       "image": "https://picsum.photos/100",
       "price": 2222,
       "id": 7
+    },
+    {
+      "name": "test mutation",
+      "image": "https://picsum.photos/200",
+      "price": 2222,
+      "id": 8
     }
   ],
   "users": []

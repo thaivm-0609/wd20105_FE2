@@ -1,21 +1,30 @@
 import { Button, Form, Input, InputNumber } from 'antd';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { createProduct } from '../../providers/product';
 
 function CreateProduct() {
     const nav = useNavigate();
-    const createProduct = async (data) => {
-        try {
-            axios.post('http://localhost:3000/products', data);
-            nav('/admin/products');
-        } catch {
-            console.log("Something went wrong");
-        }
-    }
+    // const createProduct = async (data) => {
+    //     try {
+    //         axios.post('http://localhost:3000/products', data);
+    //         nav('/admin/products');
+    //     } catch {
+    //         console.log("Something went wrong");
+    //     }
+    // }
+    const { mutate } = useMutation({
+        // mutationFn: createProduct,
+        mutationFn: createProduct({resource: "products", values}),
+        onSuccess: () => {}, //xử lý sau khi thành công
+        onError: () => {}, //xử lý lỗi
+    })
     function onFinish(values) {
         //values là dữ liệu ng dùng nhập vào form
-        createProduct(values); //gọi hàm createProduct để thêm dữ liệu vào database
+        mutate(values); //gọi hàm createProduct để thêm dữ liệu vào database
     };
+
     return (
         <Form
             name="basic"
